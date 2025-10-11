@@ -1,0 +1,20 @@
+{
+  "8201815123": {
+    "referrals": 1,
+    "invited_by": null,
+    "is_allowed": true,
+    "first_name": "..."
+  },
+  "5751993590": {
+    "referrals": 1,
+    "invited_by": "8201815123",
+    "is_allowed": true,
+    "first_name": "Firdavs"
+  },
+  "6804899105": {
+    "referrals": 0,
+    "invited_by": "5751993590",
+    "is_allowed": false,
+    "first_name": "."
+  }
+}
