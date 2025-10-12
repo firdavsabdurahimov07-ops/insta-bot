@@ -1,2 +1,3 @@
-worker: python Instagram.py
+wworker: python instagram.py
+
 
