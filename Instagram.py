@@ -111,27 +111,28 @@ def extract_instagram_url(text):
 
 def fetch_video_link_from_api(insta_url):
     """
-    SaveInsta API orqali Instagram video yoki rasm yuklab olish.
+    Instagram videoni yuklab olish (saveig.app API orqali).
     """
     try:
-        api_url = "https://saveinsta.io/api.php?url=" + insta_url
+        api_url = "https://saveig.app/api/ajaxSearch"
+        data = {"q": insta_url, "vt": "home"}
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+            "X-Requested-With": "XMLHttpRequest",
         }
-        resp = requests.get(api_url, headers=headers, timeout=25)
+
+        resp = requests.post(api_url, data=data, headers=headers, timeout=25)
 
         if resp.status_code == 200:
-            try:
-                j = resp.json()
-            except:
-                print("⚠️ JSON format emas, matn sifatida qaytdi.")
-                return None
+            html = resp.text
 
-            video_url = j.get("url") or j.get("video") or j.get("result")
-            if video_url:
-                return video_url
+            # Video URL ni ajratib olish
+            import re
+            match = re.search(r'https://scontent[^"]+\.mp4', html)
+            if match:
+                return match.group(0)
             else:
-                print("⚠️ API javobida video topilmadi:", j)
+                print("⚠️ Video topilmadi, HTML ichida yo‘q.")
                 return None
         else:
             print("⚠️ API status:", resp.status_code)
@@ -206,4 +207,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
