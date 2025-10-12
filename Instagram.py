@@ -199,13 +199,25 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("download", download))
     app.add_handler(CommandHandler("stats", stats))
-    # register any text to keep list updated
     app.add_handler(MessageHandler(filters.ALL, register_on_message))
 
     print("Bot ishga tushdi...")
-    app.run_polling()
+
+    # ✅ Railway uchun webhook rejimi
+    import os
+    PORT = int(os.environ.get("PORT", 8080))
+    APP_URL = os.environ.get("APP_URL")  # Railway project URL (masalan: https://yourproject.up.railway.app)
+
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=BOT_TOKEN,
+        webhook_url=f"{APP_URL}/{BOT_TOKEN}"
+    )
 
 if __name__ == "__main__":
     main()
+
+
 
 
