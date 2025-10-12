@@ -111,23 +111,34 @@ def extract_instagram_url(text):
 
 def fetch_video_link_from_api(insta_url):
     """
-    Bu funksiya real downloader API'ga so'rov yuboradi va
-    video yuklab olish uchun to'g'ridan-to'g'ri media link yoki fayl qaytaradi.
-    O'Z serveringiz yoki pullik API'dan foydalaning.
+    SaveInsta API orqali Instagram video yoki rasm yuklab olish.
     """
-    # Agar bepul API ishlatmoqchi bo'lsang, shu yerga API endpoint yozing va key paramlarni qo'shing.
-    # Quyidagi kod faqat misol — o'zgartirish kerak.
     try:
-        api_url = FREE_DOWNLOADER_API.format(insta_url)
-        resp = requests.get(api_url, timeout=20)
+        api_url = "https://saveinsta.io/api.php?url=" + insta_url
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        }
+        resp = requests.get(api_url, headers=headers, timeout=25)
+
         if resp.status_code == 200:
-            j = resp.json()
-            # misol: {"success": true, "video_url": "https://...."}
-            return j.get("video_url") or j.get("result")
+            try:
+                j = resp.json()
+            except:
+                print("⚠️ JSON format emas, matn sifatida qaytdi.")
+                return None
+
+            video_url = j.get("url") or j.get("video") or j.get("result")
+            if video_url:
+                return video_url
+            else:
+                print("⚠️ API javobida video topilmadi:", j)
+                return None
         else:
+            print("⚠️ API status:", resp.status_code)
             return None
+
     except Exception as e:
-        print("fetch error:", e)
+        print("fetch_video_link_from_api xatolik:", e)
         return None
 
 # --- /download handler
@@ -195,3 +206,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
