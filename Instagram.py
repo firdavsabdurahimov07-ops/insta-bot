@@ -106,13 +106,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     allowed = data[user_key]["is_allowed"]
 
     text = (
-        f"👋 Salom, {user.first_name}!\n\n"
-        f"Sening referral havolang:\n{ref_link}\n\n"
-        f"🔗 Taklif qilganlar: {my_referrals}\n"
-        f"📥 Yuklagan videolar: {downloads}\n\n"
-        f"{'✅ Siz ruxsatga egasiz va cheksiz yuklab olishingiz mumkin.' if allowed else '⚠️ Siz hozir 1 marta bepul yuklab olasiz. Keyin 1 do‘st taklif qilmaguningizcha yana yuklab bo‘lmaydi.'}\n\n"
-        "Video yuklash uchun: /download <instagram_link>"
-    )
+    f"👋 Salom, {user.first_name}!\n\n"
+    f"Sening referral havolang:\n{ref_link}\n\n"
+    f"🔗 Taklif qilganlar: {my_referrals}\n"
+    f"📥 Yuklagan videolar: {downloads}\n\n"
+    f"{'✅ Siz ruxsatga egasiz va cheksiz yuklab olishingiz mumkin.' if allowed else '⚠️ Siz hozir 1 marta bepul yuklab olasiz. Keyin 1 do‘st taklif qilmaguningizcha yana yuklab bo‘lmaydi.'}\n\n"
+    "Video yuklash uchun linkni to‘g‘ridan-to‘g‘ri yuboring yoki /download <instagram_link> komandasi orqali yuboring."
+)
     await update.message.reply_text(text)
 
 # --- /download
@@ -219,3 +219,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
